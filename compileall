@@ -1,0 +1,3 @@
+#!/bin/bash
+g++ -o insertsort insertsort.cpp
+g++ -o mergesort mergesort.cpp
