@@ -179,4 +179,6 @@ void writeToFile(vector<int> &vect, int length) {
     }
 
     outputFile << endl;
+
+    outputFile.close();
 }

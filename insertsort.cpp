@@ -170,6 +170,7 @@ void saveValueToIndex(vector<int> &vect, int length, int value, int newIndex, in
 
 }
 
+// Writes passed vector elements to "insert.out"
 void writeToFile(vector<int> &vect, int length) {
     ofstream outputFile("insert.out", ios_base::app);
 
@@ -178,4 +179,6 @@ void writeToFile(vector<int> &vect, int length) {
     }
 
     outputFile << endl;
+
+    outputFile.close();
 }
