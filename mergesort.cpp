@@ -14,7 +14,7 @@ void MergeSort(vector<int> &vect, int length);
 void writeToFile(vector<int> &vect, int length);
 
 int main() {
-    int removeFile = remove("insert.out");
+    int removeFile = remove("merge.out");
     string list = "data.txt";
     int success = readLines(list);
 
@@ -114,7 +114,7 @@ void MergeSort(vector<int> &vect, int length) {
 }
 
 void writeToFile(vector<int> &vect, int length) {
-    ofstream outputFile("insert.out", ios_base::app);
+    ofstream outputFile("merge.out", ios_base::app);
 
     for (int i = 0; i < length; i++) {
         outputFile << vect[i] << " ";
