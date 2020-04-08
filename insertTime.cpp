@@ -104,7 +104,7 @@ void insertSort(vector<int> &vect, int length) {
     time(&end); // Set end time
     duration = double(end - start); // Calculate time duration
     cout.precision(2);
-    cout << fixed << duration << " seconds have passed" << endl;
+    cout << "Duration: " << fixed << duration << " seconds for n = " << length << endl;
 
     writeToFile(vect, length); // Output results when finished
 }
