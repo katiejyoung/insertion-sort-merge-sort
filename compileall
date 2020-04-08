@@ -1,3 +1,8 @@
 #!/bin/bash
+# Compile original implementation
 g++ -o insertsort insertsort.cpp
 g++ -o mergesort mergesort.cpp
+
+# Compile modified code
+g++ -o insertTime insertTime.cpp
+g++ -o mergeTime mergeTime.cpp
