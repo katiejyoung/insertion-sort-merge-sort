@@ -8,20 +8,17 @@
 #include <cstring>
 #include <cstdlib>
 #include <vector>
-#include <iomanip>
 
 using namespace std;
 
-int readLines(string dataFile);
 int generateList();
 int randomInt();
-int getVectorSize(string dataString);
-void lineToArray(vector<int> &vect, string dataString, int length);
 void insertSort(vector<int> &vect, int length);
 void saveValueToIndex(vector<int> &vect, int length, int value, int newIndex, int oldIndex);
 void writeToFile(vector<int> &vect, int length);
 
 int main() {
+    int removeFile = remove("insert.out"); // Delete output file in case program has already been run
     int success = generateList(); // Initiate program
 
     // Output message according to program success
@@ -43,12 +40,14 @@ int generateList() {
     int len;
     vector<int> valueVector;
 
+    // Get n from user
     cout << "Enter the array size: ";
     cin >> len;
 
     if (len) {
         valueVector.resize(len); // Set vector size
 
+        // Generate random integer and add to vector, up to n values
         for (int i = 0; i < len; i++) {
             valueVector[i] = randomInt();
         }
@@ -65,69 +64,13 @@ int generateList() {
 }
 
 int randomInt() {
+    // Set range variables for random integer
     int lowInt = 0;
-    int highInt = 10000;
+    int highInt = 10001;
+
+    // Generate random integer in range and return
     int newInt = rand() % highInt + lowInt;
-
     return newInt;
-}
-
-// Identifies first integer in a given string
-// Returns integer as vector size
-int getVectorSize(string dataString) {
-    int dataItr = 0;
-    int dataValue = 0;
-    string dataItem;
-
-    // Iterate through string
-    while (dataItr <= dataString.length()) {
-        // When separator identified, convert to integer and return
-        if ((dataString[dataItr] == ' ') || (dataItr == dataString.length())) {
-            dataValue = atoi(dataItem.c_str());
-            return dataValue;
-        }
-        else {
-            dataItem += dataString[dataItr]; // Append character to string until separator reached
-        }
-
-        dataItr++;
-    }
-
-    return 0;
-}
-
-// Converts a passd string to a vector by separating integers from spaces
-void lineToArray(vector<int> &vect, string dataString, int length) {
-    int dataItr = 0;
-    int vectorItr = 0;
-    int isLength = 1;
-    int dataValue = 0;
-    string dataItem;
-
-    // Iterate through string
-    while ((dataItr <= dataString.length()) && (vectorItr < length)) {
-        // When separator identified, convert value to integer and append to vector
-        if ((dataString[dataItr] == ' ') || (dataItr == dataString.length())) { 
-            dataValue = atoi(dataItem.c_str()); // Convert value to integer
-            
-            // Append value to vector
-            if (isLength != 1) {
-                vect[vectorItr] = dataValue;
-                vectorItr++;
-            }
-            else {
-                isLength = 0; // Ignore length marker
-            }
-            
-            dataValue = 0;
-            dataItem = "";
-        }
-        else {
-            dataItem += dataString[dataItr]; // Append character to string until separator reached
-        }
-
-        dataItr++;
-    }
 }
 
 // Iterates through array and identifies values to be shifted
@@ -139,7 +82,7 @@ void insertSort(vector<int> &vect, int length) {
     int i, k;
     double duration;
     time_t start, end;
-    time(&start);
+    time(&start); // Set start time
     
     // Iterate through array
     for (i = 0; i < length; i++) {
@@ -158,10 +101,9 @@ void insertSort(vector<int> &vect, int length) {
         largeValIdx++;
     }
 
-    time(&end);
-    duration = double(end - start);
+    time(&end); // Set end time
+    duration = double(end - start); // Calculate time duration
     cout.precision(2);
-    
     cout << fixed << duration << " seconds have passed" << endl;
 
     writeToFile(vect, length); // Output results when finished

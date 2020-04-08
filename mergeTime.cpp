@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <stdlib.h> 
 #include <string>
 #include <cstring>
 #include <cstdlib>
@@ -10,9 +11,8 @@
 
 using namespace std;
 
-int readLines(string dataFile);
-int getVectorSize(string dataString);
-void lineToArray(vector<int> &vect, string dataString, int length);
+int generateList();
+int randomInt();
 void sortElements(vector<int> &vect, int length);
 void mergeSort(vector<int> &vect, int left, int right);
 void merge(vector<int> &vect, int left, int right, int middle);
@@ -21,7 +21,7 @@ void writeToFile(vector<int> &vect, int length);
 int main() {
     int removeFile = remove("merge.out"); // Delete output file in case program has already been run
     string list = "data.txt";
-    int success = readLines(list); // Initiate program
+    int success = generateList(); // Initiate program
 
     // Output message according to program success
     if (success == 1) {
@@ -34,104 +34,60 @@ int main() {
     return 0;
 }
 
-// Reads file line by line and initiates sorting
+// Generates vector of integers and initiates sorting
 // Returns 1 if sorting successful
 // Returns 0 if file error
-int readLines(string dataFile) {
+int generateList() {
     string fileLine;
     int len;
     vector<int> valueVector;
 
-    ifstream inputFile(dataFile.c_str()); // Open passed file
+    // Get n from user
+    cout << "Enter the array size: ";
+    cin >> len;
 
-    // If open successful, read lines
-    if (inputFile.is_open()) {
-        while(getline(inputFile, fileLine)) { // Iterate through file lines
-            // Obtain new vector size and update vector length accordingly
-            len = getVectorSize(fileLine);
-            valueVector.resize(len);
+    if (len) {
+        valueVector.resize(len); // Set vector size
 
-            // Convert line to vector
-            lineToArray(valueVector, fileLine, len);
-
-            // Sort vector
-            sortElements(valueVector, len);
-            valueVector.clear(); // Clear vector elements
+        // Generate random integer and add to vector, up to n values
+        for (int i = 0; i < len; i++) {
+            valueVector[i] = randomInt();
         }
 
-        inputFile.close(); // Close ifstream
+        // Sort vector
+        sortElements(valueVector, len);
+        valueVector.clear(); // Clear vector elements
+
         return 1; // Return 1 if successful
     }
-
     else {
         return 0; // Return 0 if unsuccessful
-    }
-    
+    }  
 }
 
-// Identifies first integer in a given string
-// Returns integer as vector size
-int getVectorSize(string dataString) {
-    int dataItr = 0;
-    int dataValue = 0;
-    string dataItem;
+int randomInt() {
+    // Set range variables for random integer
+    int lowInt = 0;
+    int highInt = 10001;
 
-    // Iterate through string
-    while (dataItr <= dataString.length()) {
-        // When separator identified, convert to integer and return
-        if ((dataString[dataItr] == ' ') || (dataItr == dataString.length())) {
-            dataValue = atoi(dataItem.c_str());
-            return dataValue;
-        }
-        else {
-            dataItem += dataString[dataItr]; // Append character to string until separator reached
-        }
-
-        dataItr++;
-    }
-
-    return 0;
-}
-
-// Converts a passd string to a vector by separating integers from spaces
-void lineToArray(vector<int> &vect, string dataString, int length) {
-    int dataItr = 0;
-    int vectorItr = 0;
-    int isLength = 1;
-    int dataValue = 0;
-    string dataItem;
-
-    // Iterate through string
-    while ((dataItr <= dataString.length()) && (vectorItr < length)) {
-        // When separator identified, convert value to integer and append to vector
-        if ((dataString[dataItr] == ' ') || (dataItr == dataString.length())) {
-            dataValue = atoi(dataItem.c_str());
-            
-            // Append value to vector
-            if (isLength != 1) {
-                vect[vectorItr] = dataValue;
-                vectorItr++;
-            }
-            else {
-                isLength = 0; // Ignore length marker
-            }
-            
-            dataValue = 0;
-            dataItem = "";
-        }
-        else {
-            dataItem += dataString[dataItr]; // Append character to string until separator reached
-        }
-
-        dataItr++;
-    }
-
+    // Generate random integer in range and return
+    int newInt = rand() % highInt + lowInt;
+    return newInt;
 }
 
 // Initiates sort and outputs results when complete
 void sortElements(vector<int> &vect, int length) {
+    double duration;
+    time_t start, end;
+    time(&start); // Set start time
+
     // Initiate sort
     mergeSort(vect, 0, (length - 1));
+
+    time(&end); // Set end time
+    duration = double(end - start); // Calculate time duration
+    cout.precision(2);
+    cout << fixed << duration << " seconds have passed" << endl;
 
     // Output results to file
     writeToFile(vect, length);
