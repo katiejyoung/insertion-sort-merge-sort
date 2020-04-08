@@ -53,8 +53,7 @@ int readLines(string dataFile) {
 
     else {
         return 0;
-    }
-    
+    }  
 }
 
 int getVectorSize(string dataString) {
@@ -121,10 +120,7 @@ void insertSort(vector<int> &vect, int length) {
                 k++;
             }
 
-            // cout << "Moving element: " << vect[i] << " from index: " << i << " to index " << k << endl;
             saveValueToIndex(vect, length, vect[i], k, i);
-            
-            
         }
         else {
             largeVal = vect[i];
@@ -143,18 +139,15 @@ void saveValueToIndex(vector<int> &vect, int length, int value, int newIndex, in
 
     while (i < newIndex) {
         tempVector[i] = vect[i];
-        // cout << "Copied " << tempVector[i] << " to temporary vector at index " << i << endl;
         i++;
     }
 
     tempVector[i] = value;
-    // cout << "Copied " << tempVector[i] << " to temporary vector at index " << i << endl;
     j = i + 1;
 
     while (i < length) {
         if (i != oldIndex) {
             tempVector[j] = vect[i];
-            // cout << "Copied " << tempVector[j] << " to temporary vector at index " << j << endl;
             j++;
         }
 
@@ -163,11 +156,7 @@ void saveValueToIndex(vector<int> &vect, int length, int value, int newIndex, in
 
     for (i = 0; i < length; i++) {
         vect[i] = tempVector[i];
-        // cout << vect[i] << " ";
     }
-
-    // cout << endl;
-
 }
 
 // Writes passed vector elements to "insert.out"
