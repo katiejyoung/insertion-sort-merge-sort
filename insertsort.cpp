@@ -1,3 +1,6 @@
+// Katie Young
+// CS 325, Homework Assignment #1
+
 #include <iostream>
 #include <fstream>
 #include <string>
