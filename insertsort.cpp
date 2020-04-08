@@ -10,9 +10,12 @@ using namespace std;
 int readLines(string dataFile);
 int getVectorSize(string dataString);
 void lineToArray(vector<int> &vect, string dataString, int length);
+void insertSort(vector<int> &vect, int length);
+void saveValueToIndex(vector<int> &vect, int length, int value, int newIndex, int oldIndex);
+void writeToFile(vector<int> &vect, int length);
 
 int main() {
-    cout << "Hello, world." << endl;
+    int removeFile = remove("insert.out");
     string list = "data.txt";
     int success = readLines(list);
 
@@ -37,11 +40,10 @@ int readLines(string dataFile) {
         while(getline(inputFile, fileLine)) {
             len = getVectorSize(fileLine);
             valueVector.resize(len);
-            // cout << "Length of vector: " << len << endl;
-            // cout << "Size of vector: " << valueVector.size() << endl;
 
             lineToArray(valueVector, fileLine, len);
-            cout << valueVector.at(len - 1) << endl;
+
+            insertSort(valueVector, len);
             valueVector.clear();
         }
 
@@ -104,4 +106,76 @@ void lineToArray(vector<int> &vect, string dataString, int length) {
         dataItr++;
     }
 
+}
+
+void insertSort(vector<int> &vect, int length) {
+    int largeValIdx = 0;
+    int largeVal = vect[largeValIdx];
+    int newIndex;
+    int i, k;
+    
+    for (i = 0; i < length; i++) {
+        if (vect[i] < largeVal) {
+            k = 0;
+            while (vect[k] <= vect[i]) {
+                k++;
+            }
+
+            // cout << "Moving element: " << vect[i] << " from index: " << i << " to index " << k << endl;
+            saveValueToIndex(vect, length, vect[i], k, i);
+            
+            
+        }
+        else {
+            largeVal = vect[i];
+        }
+        largeValIdx++;
+    }
+
+    writeToFile(vect, length);
+}
+
+void saveValueToIndex(vector<int> &vect, int length, int value, int newIndex, int oldIndex) {
+    vector<int> tempVector;
+    tempVector.resize(length);
+    int i = 0;
+    int j = 0;
+
+    while (i < newIndex) {
+        tempVector[i] = vect[i];
+        // cout << "Copied " << tempVector[i] << " to temporary vector at index " << i << endl;
+        i++;
+    }
+
+    tempVector[i] = value;
+    // cout << "Copied " << tempVector[i] << " to temporary vector at index " << i << endl;
+    j = i + 1;
+
+    while (i < length) {
+        if (i != oldIndex) {
+            tempVector[j] = vect[i];
+            // cout << "Copied " << tempVector[j] << " to temporary vector at index " << j << endl;
+            j++;
+        }
+
+        i++;
+    }
+
+    for (i = 0; i < length; i++) {
+        vect[i] = tempVector[i];
+        // cout << vect[i] << " ";
+    }
+
+    // cout << endl;
+
+}
+
+void writeToFile(vector<int> &vect, int length) {
+    ofstream outputFile("insert.out", ios_base::app);
+
+    for (int i = 0; i < length; i++) {
+        outputFile << vect[i] << " ";
+    }
+
+    outputFile << endl;
 }
