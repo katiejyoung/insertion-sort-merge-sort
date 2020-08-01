@@ -10,3 +10,10 @@ Now that you have verified that your code runs correctly using the data.txt inpu
 2. Run "compileall" to compile the code.
 3. To run insertsort, type "insertsort". To run mergesort, type "mergesort".
 4. To run insertTime, type "insertTime". To run mergeTime, type "mergeTime."
+
+Example run for insertSort and mergeSort using included data.txt file:
+### InsertSort
+![Alt Image makeChange](/insertsort.PNG?raw=true)
+
+### MergeSort
+![Alt Image makeChange](/mergesort.PNG?raw=true)
